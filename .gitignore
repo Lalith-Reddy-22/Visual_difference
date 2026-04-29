@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+
+# Uploaded images (generated at runtime)
+backend/uploads/snapshots/*
+backend/uploads/diffs/*
+backend/uploads/baselines/*
+!backend/uploads/snapshots/.gitkeep
+!backend/uploads/diffs/.gitkeep
+!backend/uploads/baselines/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vite build output
+frontend/dist/
+
+# Editor
+.vscode/
+.idea/
