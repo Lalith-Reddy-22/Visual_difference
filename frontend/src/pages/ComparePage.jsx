@@ -6,15 +6,17 @@ import toast from 'react-hot-toast';
 import {
   GitCompare, Play, Loader, Monitor, Tablet, Smartphone,
   Check, X, AlertTriangle, SlidersHorizontal,
-  ArrowLeftRight, Layers, Eye, Search, ChevronDown, Maximize2, Minimize2
+  ArrowLeftRight, Layers, Eye, Search, ChevronDown, Maximize2, Minimize2, ZoomIn
 } from 'lucide-react';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 const BASE = 'http://localhost:4000';
 const VP_ICONS = { desktop: Monitor, tablet: Tablet, mobile: Smartphone };
 
 // ─── Draggable slider diff viewer ────────────────────────────────────────────
 function SliderViewer({ stagingUrl, productionUrl, diffUrl }) {
-  const [mode, setMode] = useState('slider'); // slider | side | diff
+  const [mode, setMode] = useState('slider');
+  const [zoomMode, setZoomMode] = useState(false);
   const [sliderPos, setSliderPos] = useState(50);
   const [dragging, setDragging] = useState(false);
   const containerRef = useRef(null);
@@ -178,10 +180,30 @@ function SliderViewer({ stagingUrl, productionUrl, diffUrl }) {
 
         {/* DIFF MODE */}
         {mode === 'diff' && (
-          <div style={{ overflow: 'auto', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', padding: 20 }}>
-            {diffUrl
-              ? <img src={`${BASE}${diffUrl}`} alt="diff" style={{ maxWidth: '100%', borderRadius: 8 }} />
-              : <Placeholder label="No diff image available" />}
+          <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '4px 12px', background: 'var(--bg2)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 11, color: 'var(--text3)' }}>
+                {zoomMode ? <><ZoomIn size={11} style={{ marginRight: 5, verticalAlign: 'middle' }} />Scroll to zoom · Drag to pan</> : 'Scroll to navigate'}
+              </span>
+              <button onClick={() => setZoomMode(v => !v)} className="btn btn-ghost btn-sm">
+                <ZoomIn size={11} /> {zoomMode ? 'Exit Zoom' : 'Zoom & Pan'}
+              </button>
+            </div>
+            {diffUrl ? (
+              zoomMode ? (
+                <div style={{ flex: 1, overflow: 'auto' }}>
+                  <TransformWrapper minScale={0.5} maxScale={8} wheel={{ step: 0.05 }}>
+                    <TransformComponent wrapperStyle={{ width: '100%' }} contentStyle={{ width: '100%' }}>
+                      <img src={`${BASE}${diffUrl}`} alt="diff" style={{ width: '100%', display: 'block' }} />
+                    </TransformComponent>
+                  </TransformWrapper>
+                </div>
+              ) : (
+                <div style={{ flex: 1, overflow: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+                  <img src={`${BASE}${diffUrl}`} alt="diff" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                </div>
+              )
+            ) : <Placeholder label="No diff image available" />}
           </div>
         )}
       </div>
