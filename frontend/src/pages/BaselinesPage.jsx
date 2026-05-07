@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 import { Image, Monitor, Tablet, Smartphone, Loader, RefreshCw, X, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const BASE = 'http://localhost:4000';
+const BASE = '';
 const VP_ICONS = { desktop: Monitor, tablet: Tablet, mobile: Smartphone };
 
 function BaselineModal({ baseline, onClose, onDelete }) {

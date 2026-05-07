@@ -9,7 +9,7 @@ import {
   ArrowLeftRight, Layers, Eye, Search, ChevronDown, Maximize2, Minimize2
 } from 'lucide-react';
 
-const BASE = 'http://localhost:4000';
+const BASE = '';
 const VP_ICONS = { desktop: Monitor, tablet: Tablet, mobile: Smartphone };
 
 // ─── Draggable slider diff viewer ────────────────────────────────────────────

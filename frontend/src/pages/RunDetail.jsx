@@ -5,7 +5,7 @@ import Sidebar from '../components/Sidebar';
 import { ArrowLeft, Check, X, HelpCircle, Eye, Loader, GitCompare, ArrowLeftRight, Layers, Maximize2, Minimize2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const BASE = 'http://localhost:4000';
+const BASE = '';
 
 // ─── Shared slider viewer ─────────────────────────────────────────────────────
 function SliderViewer({ leftUrl, rightUrl, diffUrl, leftLabel = 'BEFORE', rightLabel = 'AFTER', viewport }) {
