@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vrapp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 220703
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on: 
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:220703@db:5432/vrapp
+      JWT_SECRET: ${JWT_SECRET:-vr-secret-change-me}
+      PORT: 4000
+    volumes:
+      - uploads:/app/uploads
+    ports:
+      - "4000:4000"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  pgdata:
+  uploads:

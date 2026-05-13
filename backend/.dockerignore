@@ -1,0 +1,6 @@
+node_modules
+.env
+uploads/snapshots/*
+uploads/diffs/*
+uploads/baselines/*
+*.log
